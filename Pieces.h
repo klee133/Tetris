@@ -16,6 +16,6 @@ public:
 	// 0 = no blocks
 	// 1 = normal block
 	// 2 = pivot block (block that pieces rotates around)
-	int getBlockType(int pPiece, int pRotation, int pX, int pY);
+	int getBlockType(int pPiece, int pRotation, int pRow, int pCol);
 };
 

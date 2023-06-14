@@ -3,7 +3,7 @@
 //	Array initialization: [# of pieces][# of rotations][row][column]
 char pieceDef[7][4][5][5] =
 {	
-	//	Square
+	//	Square [0]
 	{
 		// Square Rotation #1
 		{
@@ -38,7 +38,7 @@ char pieceDef[7][4][5][5] =
 			{0, 0, 0, 0, 0}
 		}
 	},
-	//	Line
+	//	Line [1]
 	{
 		// Line Rotation #1
 		{
@@ -73,7 +73,7 @@ char pieceDef[7][4][5][5] =
 			{0, 0, 0, 0, 0}
 		}
 	},
-	//	T
+	//	T [2]
 	{
 		// T Rotation #1
 		{
@@ -108,7 +108,7 @@ char pieceDef[7][4][5][5] =
 			{0, 0, 0, 0, 0}
 		}
 	},
-	//	L
+	//	L [3]
 	{
 		// L Rotation #1
 		{
@@ -143,7 +143,7 @@ char pieceDef[7][4][5][5] =
 			{0, 0, 0, 0, 0}
 		}
 	},
-	//	J
+	//	J [4]
 	{
 		// J Rotation #1
 		{
@@ -178,7 +178,7 @@ char pieceDef[7][4][5][5] =
 			{0, 0, 0, 0, 0}
 		}
 	},
-	//	S
+	//	S [5]
 	{
 		// S Rotation #1
 		{
@@ -213,7 +213,7 @@ char pieceDef[7][4][5][5] =
 			{0, 0, 0, 0, 0}
 		}
 	},
-	//	Z
+	//	Z [6]
 	{
 		// Z Rotation #1
 		{
@@ -250,6 +250,6 @@ char pieceDef[7][4][5][5] =
 	}
 };
 
-int Pieces::getBlockType(int pPiece, int pRotation, int pX, int pY) {
-	return pieceDef[pPiece][pRotation][pX][pY];
+int Pieces::getBlockType(int pPiece, int pRotation, int pRow, int pCol) {
+	return pieceDef[pPiece][pRotation][pRow][pCol];
 }

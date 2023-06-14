@@ -10,5 +10,9 @@
 
 class Board
 {
+	//	Initialize board
+	//	Check collisions (Side/bottom, other pieces)
+	//	Return X and Y position of block for drawing
+
 };
 
