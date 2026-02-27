@@ -2,7 +2,7 @@
 //
 
 #include <iostream>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include "Pieces.h"
 
 using namespace std;
@@ -13,16 +13,26 @@ int main(int argc, char* args[])
     SDL_Renderer* renderer = nullptr;
     unsigned long mTime1 = SDL_GetTicks();
 
-    SDL_Init(SDL_INIT_EVERYTHING);
-    window = SDL_CreateWindow("Tetris", SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
-    renderer = SDL_CreateRenderer(window, 0, 0);
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == false) {
+        SDL_Log("SDL_Init failed: %s", SDL_GetError());
+        return 1;
+    }
+    
+
+    window = SDL_CreateWindow("Tetris", 640, 480, SDL_WINDOW_OPENGL);
+    renderer = SDL_CreateRenderer(window, NULL);
 
     bool isRunning = true;
     SDL_Event ev;
 
     
-    SDL_Rect rect = {0,0,50,50};
+    SDL_Rect rrect = {0,0,50,50};
+    SDL_FRect rect;
+    rect.x = (float)rrect.x;
+    rect.y = (float)rrect.y;
+    rect.w = (float)rrect.w;
+    rect.h = (float)rrect.h;
+
 
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
@@ -63,16 +73,16 @@ int main(int argc, char* args[])
         SDL_RenderPresent(renderer);
 
         while (SDL_PollEvent(&ev) != 0) {
-            if (ev.type == SDL_QUIT) {
+            if (ev.type == SDL_EVENT_QUIT) {
                 isRunning = false;
-            }else if (ev.type == SDL_KEYDOWN) {
-                if (ev.key.keysym.sym == SDLK_RIGHT) {
+            }else if (ev.type == SDL_EVENT_KEY_DOWN) {
+                if (ev.key.key== SDLK_RIGHT) {
                     rotation++;                    
                 }
-                if (ev.key.keysym.sym == SDLK_LEFT) {
+                if (ev.key.key == SDLK_LEFT) {
                     rotation--;
                 }
-                if (ev.key.keysym.sym == SDLK_SPACE) {
+                if (ev.key.key== SDLK_SPACE) {
                     type++;
                 }
                 rotation = (rotation+4) % 4;
@@ -131,3 +141,6 @@ int main(int argc, char* args[])
 //   4. Use the Error List window to view errors
 //   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
 //   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
+
+
