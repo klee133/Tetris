@@ -17,14 +17,12 @@ int main(int argc, char* args[])
         SDL_Log("SDL_Init failed: %s", SDL_GetError());
         return 1;
     }
-    
 
-    window = SDL_CreateWindow("Tetris", 640, 480, SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("Tetris", 650, 480, SDL_WINDOW_OPENGL);
     renderer = SDL_CreateRenderer(window, NULL);
 
     bool isRunning = true;
     SDL_Event ev;
-
     
     SDL_Rect rrect = {0,0,50,50};
     SDL_FRect rect;
@@ -33,21 +31,20 @@ int main(int argc, char* args[])
     rect.w = (float)rrect.w;
     rect.h = (float)rrect.h;
 
-
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
-    //          int color[9][3] = 
-    //          {
-    //  Yellow      255     255     0
-    //  Cyan        0       255     255
-    //  Purple      126     0       255
-    //  Orange      255     126     0
-    //  Blue        0       0       255
-    //  Green       0       255     0
-    //  Red         255     0       0
-    //  White       255     255     255
-    //  Black       0       0       0
-    //                                  };
+    int color[9][3] = 
+    {      
+        {255,     255,     0},      //  Yellow
+        {0,       255,     255},    //  Cyan  
+        {126,     0,       255},    //  Purple
+        {255,     126,     0},      //  Orange
+        {0,       0,       255},    //  Blue  
+        {0,       255,     0},      //  Green 
+        {255,     0,       0},      //  Red   
+        {255,     255,     255},    //  White 
+        {0,       0,       0}       //  Black 
+    };               
 
     Pieces piece1;
     int rotation = 0;
@@ -56,19 +53,21 @@ int main(int argc, char* args[])
     while (isRunning) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+        int tempx = rect.x;
+        int tempy = rect.y;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (piece1.getBlockType(type, rotation, i, j) != 0) {
-                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                    SDL_SetRenderDrawColor(renderer, color[type][0], color[type][1], color[type][2], 255);
                     SDL_RenderFillRect(renderer, &rect);
                 }
                 rect.x += 50;
             }
-            rect.x = 0;
+            rect.x = tempx;
             rect.y += 50;
         }
-        rect.x = 0;
-        rect.y = 0;
+        rect.x = tempx;
+        rect.y = tempy;
 
         SDL_RenderPresent(renderer);
 
@@ -76,11 +75,18 @@ int main(int argc, char* args[])
             if (ev.type == SDL_EVENT_QUIT) {
                 isRunning = false;
             }else if (ev.type == SDL_EVENT_KEY_DOWN) {
-                if (ev.key.key== SDLK_RIGHT) {
+                if (ev.key.key== SDLK_UP) {
                     rotation++;                    
                 }
                 if (ev.key.key == SDLK_LEFT) {
-                    rotation--;
+                    if(rect.x > 0) {
+                        rect.x -= 50;
+                    }
+                }
+                if (ev.key.key == SDLK_RIGHT) {
+                    if(rect.x < 400) {
+                        rect.x += 50;
+                    }
                 }
                 if (ev.key.key== SDLK_SPACE) {
                     type++;
